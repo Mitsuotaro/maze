@@ -9,7 +9,7 @@ const {
 const engine = Engine.create();
 const { world } = engine;
 
-const cells = 4;
+const cells = 3;
 const width = 600;
 const height = 600;
 
@@ -34,6 +34,22 @@ const walls = [
     Bodies.rectangle(width, height / 2, 40, height, { isStatic: true}),
 ];
 World.add(world, walls);
+
+const shuffle = (arr) => {
+    let counter = arr.length;
+
+    while(counter > 0){
+        const index = Math.floor(Math.random() * counter);
+        
+        counter--;
+
+        const temporary = arr[index];
+        arr[counter] = arr[index];
+        arr[index] = temporary;
+    }
+
+    return arr;
+}
 
 // MAZE GENERATION
 const grid = Array(cells)
@@ -61,7 +77,13 @@ function iterateCells(row, column){
     grid[row][column] = true;
 
     // Assemble randomly-ordered list of neighbors
-    const list = [];
+    const list = shuffle([
+        [row - 1, column], // Above
+        [row, column + 1], // Right
+        [row + 1, column], // Below
+        [row, column - 1], // Left
+    ]);
+    console.log("list: ", list);
 
     // For each neighbors... (iteration)
 
@@ -74,3 +96,5 @@ function iterateCells(row, column){
     // Visit that next cell
     console.log("grid: ", grid);
 }
+
+iterateCells(1, 1);
