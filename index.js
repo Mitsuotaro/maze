@@ -77,17 +77,30 @@ function iterateCells(row, column){
     grid[row][column] = true;
 
     // Assemble randomly-ordered list of neighbors
-    const list = shuffle([
-        [row - 1, column], // Above
-        [row, column + 1], // Right
-        [row + 1, column], // Below
-        [row, column - 1], // Left
+    const neighbors = shuffle([
+        [row - 1, column, 'up'], // Above
+        [row, column + 1, 'right'], // Right
+        [row + 1, column, 'down'], // Below
+        [row, column - 1, 'left'], // Left
     ]);
-    console.log("list: ", list);
-
+    console.log("list: ", neighbors);
     // For each neighbors... (iteration)
+    for(let neighbor of neighbors){
+        const [nextRow, nextColumn, direction ] = neighbor;
 
-    // See if that neighbor is out of bounds (outside of the grid)
+        // See if that neighbor is out of bounds (outside of the grid)
+        if(nextRow < 0 || nextRow >= cells || nextColumn < 0 || nextColumn >= cells){
+            continue;
+        }
+
+        if(grid[nextRow][nextColumn]){
+            continue;
+        }
+        console.log("next row: ", nextRow);
+        console.log("nextColumn: ", nextColumn);
+
+    }
+
 
     // If cell is already visited, continue to next neighbor
 
